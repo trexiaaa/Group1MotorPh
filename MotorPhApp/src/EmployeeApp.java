@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 import CreateAccount.CreateAccount;
-import EmployeeDetails.EmployeeInfo;
+import adminDashboard.AdminDashboard;
 
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -93,30 +93,23 @@ public class EmployeeApp {
                 if (employeeMap != null && employeeMap.containsKey(username) && employeeMap.get(username).equals(password)) {
                     JOptionPane.showMessageDialog(null, "Login Successful");
                     
-                    //open employee details
-                    EmployeeInfo info = new EmployeeInfo();
-                    EmployeeInfo.main(null);
+                    AdminDashboard info = new AdminDashboard();
+                    AdminDashboard.main(null);
+                    
                     
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid Login Details", "Login Error", JOptionPane.ERROR_MESSAGE);
                     txtPassword.setText("");
                     txtUsername.setText("");
-                }
+                } 
             }
         });
-        btnLogin.setBounds(103, 241, 89, 23);
+        btnLogin.setBounds(165, 241, 89, 23);
         frmMotorph.getContentPane().add(btnLogin);
         
-        JButton btnCreate = new JButton("Create");
-        btnCreate.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // create functionality
-            	CreateAccount info = new CreateAccount();
-            	CreateAccount.main(null);
-            }
-        });
-        btnCreate.setBounds(253, 241, 89, 23);
-        frmMotorph.getContentPane().add(btnCreate);
+        JLabel lblNewLabel = new JLabel("New label");
+        lblNewLabel.setBounds(62, 22, 158, 74);
+        frmMotorph.getContentPane().add(lblNewLabel);
     }
     
     public static void EmployeeDetails() throws IOException {
@@ -144,7 +137,6 @@ public class EmployeeApp {
             }
         }
     }
-   
 }
 
 

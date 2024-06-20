@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -18,6 +19,8 @@ import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class CreateAccount extends JDialog {
 
@@ -43,7 +46,6 @@ public class CreateAccount extends JDialog {
 	private JLabel lblPagibigNumber;
 	private JTextField txtPagibigNum;
 	private JLabel lblStatus;
-	private JTextField txtStatus;
 	private JLabel lblPosition;
 	private JTextField txtPosition;
 	private JLabel lblImmediateSupervisor;
@@ -60,6 +62,7 @@ public class CreateAccount extends JDialog {
 	private JTextField txtSemiMonthlyRate;
 	private JLabel lblHourlyRate;
 	private JTextField txtHourlyRate;
+	private JTextField txtStatus;
 
 	/**
 	 * Launch the application.
@@ -192,11 +195,6 @@ public class CreateAccount extends JDialog {
 		lblStatus.setBounds(40, 366, 114, 14);
 		contentPanel.add(lblStatus);
 		
-		txtStatus = new JTextField();
-		txtStatus.setColumns(10);
-		txtStatus.setBounds(197, 360, 199, 20);
-		contentPanel.add(txtStatus);
-		
 		lblPosition = new JLabel("Position");
 		lblPosition.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblPosition.setBounds(40, 397, 114, 14);
@@ -285,29 +283,35 @@ public class CreateAccount extends JDialog {
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try (BufferedWriter writer = new BufferedWriter(new FileWriter("src\\EmployeeDetails.csv", true))) {
-		            String data = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
-		                    txtEmpNum.getText().trim(),
-		                    txtLastName.getText().trim(),
-		                    txtFirstName.getText().trim(),
-		                    txtBirthday.getText().trim(),
-		                    txtAddress.getText().trim(),
-		                    txtPhoneNum.getText().trim(),
-		                    txtSSSNum.getText().trim(),
-		                    txtPHNum.getText().trim(),
-		                    txtTinNum.getText().trim(),
-		                    txtPagibigNum.getText().trim(),
-		                    txtStatus.getText().trim(),
-		                    txtPosition.getText().trim(),
-		                    txtSupervisor.getText().trim(),
-		                    txtBasicSalary.getText().trim(),
-		                    txtRiceSubsidy.getText().trim(),
-		                    txtPhoneAllowance.getText().trim(),
-		                    txtClothingAllowance.getText().trim(),
-		                    txtSemiMonthlyRate.getText().trim(),
-		                    txtHourlyRate.getText().trim());
+				 try (BufferedWriter writer = new BufferedWriter(new FileWriter("src\\EmployeeDetails.csv", true))) {
+			            String[] newData = new String[]{
+			                txtEmpNum.getText().trim(),
+			                txtLastName.getText().trim(),
+			                txtFirstName.getText().trim(),
+			                txtBirthday.getText().trim(),
+			                txtAddress.getText().trim(),
+			                txtPhoneNum.getText().trim(),
+			                txtSSSNum.getText().trim(),
+			                txtPHNum.getText().trim(),
+			                txtTinNum.getText().trim(),
+			                txtPagibigNum.getText().trim(),
+			                txtStatus.getText().trim(),
+			                txtPosition.getText().trim(),
+			                txtSupervisor.getText().trim(),
+			                txtBasicSalary.getText().trim(),
+			                txtRiceSubsidy.getText().trim(),
+			                txtPhoneAllowance.getText().trim(),
+			                txtClothingAllowance.getText().trim(),
+			                txtSemiMonthlyRate.getText().trim(),
+			                txtHourlyRate.getText().trim()
+			            };
 
-		            writer.write(data);
+			            // Format the data as a CSV line
+			            String data = String.join(",", newData) + "\n";
+			            writer.write(data);
+			            writer.close();
+
+			            
 		            JOptionPane.showMessageDialog(null, "New Employee Details Added Successfully!");
 		            dispose(); // Close the dialog
 		        } catch (IOException ex) {
@@ -316,7 +320,39 @@ public class CreateAccount extends JDialog {
 		        }
 		    }
 		});
-		btnSubmit.setBounds(167, 667, 89, 23);
+		btnSubmit.setBounds(239, 667, 89, 23);
 		contentPanel.add(btnSubmit);
+		
+		txtStatus = new JTextField();
+		txtStatus.setColumns(10);
+		txtStatus.setBounds(197, 360, 199, 20);
+		contentPanel.add(txtStatus);
+		
+		JButton btnReset = new JButton("Reset");
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtEmpNum.setText("");
+                txtLastName.setText("");
+                txtFirstName.setText("");
+                txtBirthday.setText("MM/DD/YYYY");
+                txtAddress.setText("");
+                txtPhoneNum.setText("");
+                txtSSSNum.setText("");
+                txtPHNum.setText("");
+                txtTinNum.setText("");
+                txtPagibigNum.setText("");
+                txtStatus.setText("");
+                txtPosition.setText("");
+                txtSupervisor.setText("");
+                txtBasicSalary.setText("");
+                txtRiceSubsidy.setText("");
+                txtPhoneAllowance.setText("");
+                txtClothingAllowance.setText("");
+                txtSemiMonthlyRate.setText("");
+                txtHourlyRate.setText("");
+			}
+		});
+		btnReset.setBounds(100, 667, 89, 23);
+		contentPanel.add(btnReset);
 	}
 }
