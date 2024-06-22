@@ -10,7 +10,9 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.awt.List;
 import java.awt.BorderLayout;
@@ -35,6 +37,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class AdminDashboard {
 
@@ -70,22 +73,23 @@ public class AdminDashboard {
 	 */
 	private void initialize() {
 		frmAdminDashboard = new JFrame();
+		frmAdminDashboard.getContentPane().setBackground(new Color(255, 204, 204));
 		frmAdminDashboard.setTitle("Admin Dashboard");
-		frmAdminDashboard.setBounds(200, 200, 1308, 892);
-		frmAdminDashboard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmAdminDashboard.setBounds(200, 200, 674, 848);
+		frmAdminDashboard.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmAdminDashboard.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 204, 204));
 		panel.setBorder(new MatteBorder(3, 3, 3, 3, (Color) Color.PINK));
-		panel.setBounds(10, 106, 1272, 588);
+		panel.setBounds(10, 97, 637, 590);
 		frmAdminDashboard.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(10, 11, 1252, 566);
+		scrollPane.setBounds(10, 11, 614, 566);
 		panel.add(scrollPane);
 		
 		table = new JTable();
@@ -149,7 +153,7 @@ public class AdminDashboard {
 		panel_1.setLayout(null);
 		panel_1.setBorder(new MatteBorder(3, 3, 3, 3, (Color) Color.PINK));
 		panel_1.setBackground(new Color(255, 204, 204));
-		panel_1.setBounds(10, 698, 1272, 144);
+		panel_1.setBounds(10, 698, 637, 106);
 		frmAdminDashboard.getContentPane().add(panel_1);
 		
 		JButton btnCreate = new JButton("Create");
@@ -159,35 +163,47 @@ public class AdminDashboard {
             	CreateAccount.main(null);
 			}
 		});
-		btnCreate.setBounds(157, 47, 130, 45);
+		btnCreate.setBounds(10, 26, 130, 38);
 		panel_1.add(btnCreate);
 		
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
-				if(table.getSelectedRow()==1) {
-					
-					if(table.getRowCount()==0) {
-						JOptionPane.showMessageDialog(null, "No data to delete", "Employee Details", JOptionPane.OK_CANCEL_OPTION);
-						
-					} else {
-						JOptionPane.showMessageDialog(null, "Select a row to delete", "Employee Details", JOptionPane.OK_CANCEL_OPTION);
+				int selectedRow = table.getSelectedRow();
+				
+				if (selectedRow == -1) {
+					JOptionPane.showMessageDialog(null, "Select a row to delete", "Error", JOptionPane.OK_CANCEL_OPTION);
+					return;
+				} 
+				
+				int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete selected employee details?", "Confirm", JOptionPane.YES_NO_OPTION);
+				if (confirm == JOptionPane.YES_OPTION) {
+					model.removeRow(selectedRow);
+					try {
+						deleteDataCsv();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-				}else {
-					JOptionPane.showConfirmDialog(null, "Are you sure you want to delete selected employee details?", "Delete Details", JOptionPane.YES_NO_OPTION);
-					model.removeRow(table.getSelectedRow());
-					JOptionPane.showMessageDialog(null, "Employee Details deleted!");
+					
+					JOptionPane.showMessageDialog(null, "Employee Details Deleted");
 				}
+				
 				
 			}
 		});
-		btnDelete.setBounds(341, 50, 123, 38);
+		btnDelete.setBounds(170, 26, 123, 38);
 		panel_1.add(btnDelete);
 		
 		JButton btnUpdate = new JButton("Update");
-		btnUpdate.setBounds(508, 47, 130, 38);
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		btnUpdate.setBounds(323, 26, 130, 38);
 		panel_1.add(btnUpdate);
 		
 		JButton btnRefresh = new JButton("Refresh");
@@ -196,7 +212,7 @@ public class AdminDashboard {
 				loadCSVData("src\\EmployeeDetails");
 			}
 		});
-		btnRefresh.setBounds(665, 47, 130, 38);
+		btnRefresh.setBounds(497, 26, 130, 38);
 		panel_1.add(btnRefresh);
 		
 		JButton btnSignOut = new JButton("Sign Out");
@@ -210,8 +226,13 @@ public class AdminDashboard {
 				}
 			}
 		});
-		btnSignOut.setBounds(1169, 23, 89, 23);
+		btnSignOut.setBounds(550, 11, 89, 23);
 		frmAdminDashboard.getContentPane().add(btnSignOut);
+		
+		JLabel lblNewLabel = new JLabel("MotorPh");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 50));
+		lblNewLabel.setBounds(10, 25, 216, 49);
+		frmAdminDashboard.getContentPane().add(lblNewLabel);
 		
 		
 		
@@ -224,7 +245,7 @@ public class AdminDashboard {
 	        String line;
 	        while ((line = br.readLine()) != null) {
 	        	
-	            //String[] data = line.split(",");
+	            String[] data = line.split(",");
 	        	String repl = line.replaceAll(",(?!(([^\"]*\"){2})*[^\"]*$)", ";x;");
                 String[] row = repl.split(",");
                 for (int i = 0; i < row.length; i++) {
@@ -237,6 +258,38 @@ public class AdminDashboard {
 	        JOptionPane.showMessageDialog(frmAdminDashboard, "Error loading data from CSV file", "Error", JOptionPane.ERROR_MESSAGE);
 	    }
 	}
+	
+	private void deleteDataCsv() throws IOException {
+		try (BufferedWriter writer = new BufferedWriter (new FileWriter("src\\EmployeeDetails.csv"))) {
+			DefaultTableModel model = (DefaultTableModel)table.getModel();
+			int rowCount = model.getRowCount();
+	        int columnCount = model.getColumnCount();
+
+	        for (int i = 0; i < rowCount; i++) {
+	            for (int j = 0; j < columnCount; j++) {
+	            	String value = model.getValueAt(i, j).toString();
+	                // Check if the value contains commas
+	                if (value.contains(",")) {
+	                    // Encapsulate the value in double quotes
+	                    writer.write("\"" + value + "\"");
+	                } else {
+	                    writer.write(value);
+	                }
+
+	                if (j < columnCount - 1) {
+	                    writer.write(",");
+	                }
+	            }
+	            writer.newLine(); 
+	        }
+		}catch (IOException e) {
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Error deleting data", "Error",JOptionPane.ERROR_MESSAGE); 
+				
+				} 
+				
+			}
+	
 
 	public static String sanitize_data(String info) {
 		return info.replace(";x;",",").replace("\"", "");
@@ -259,4 +312,5 @@ public class AdminDashboard {
 			}
 		});
 	}
+
 }
