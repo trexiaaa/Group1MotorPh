@@ -2,6 +2,7 @@ package adminDashboard;
 
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
@@ -14,6 +15,8 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.awt.List;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
@@ -39,10 +42,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 
+
 public class AdminDashboard {
 
 	private JFrame frmAdminDashboard;
 	private JTable table;
+	private JTextField txtSearch;
+	private ArrayList<String[]> employeeData = new ArrayList<>();
 
 	/**
 	 * Launch the application.
@@ -108,14 +114,7 @@ public class AdminDashboard {
 			new String[] {
 				"Employee #", "Last Name", "First Name", "Birthday", "Address", "Phone Number", "SSS #", "Philhealth #", "TIN #", "Pag-ibig #", "Status", "Position", "Immediate Supervisor", "Basic Salary", "Rice Subsidy", "Phone Allowance", "Clothing Allowance", "Gross Semi-monthly Rate", "Hourly Rate"
 			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
+		));
 		table.getColumnModel().getColumn(0).setPreferredWidth(85);
 		table.getColumnModel().getColumn(1).setPreferredWidth(85);
 		table.getColumnModel().getColumn(1).setMinWidth(85);
@@ -145,7 +144,8 @@ public class AdminDashboard {
 		table.getColumnModel().getColumn(14).setPreferredWidth(87);
 		table.getColumnModel().getColumn(15).setPreferredWidth(97);
 		table.getColumnModel().getColumn(16).setPreferredWidth(105);
-		table.getColumnModel().getColumn(17).setPreferredWidth(134);
+		table.getColumnModel().getColumn(17).setPreferredWidth(150);
+		table.getColumnModel().getColumn(17).setMinWidth(150);
 		table.getColumnModel().getColumn(18).setPreferredWidth(67);
 		scrollPane.setViewportView(table);
 		
@@ -234,9 +234,50 @@ public class AdminDashboard {
 		lblNewLabel.setBounds(10, 25, 216, 49);
 		frmAdminDashboard.getContentPane().add(lblNewLabel);
 		
+		txtSearch = new JTextField();
+		txtSearch.setBounds(520, 66, 127, 20);
+		frmAdminDashboard.getContentPane().add(txtSearch);
+		txtSearch.setColumns(10);
 		
-		
-	}
+		 JButton btnSearch = new JButton("Search");
+	        btnSearch.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                String empID = txtSearch.getText().trim();
+
+	                String[] employeeDetails = searchEmployeeID(empID);
+
+	                if (employeeDetails != null) {
+	                    searchResultsFrame resultsFrame = new searchResultsFrame(employeeDetails);
+	                    resultsFrame.setVisible(true);
+	                } else {
+	                    JOptionPane.showMessageDialog(null, "No employee found with Employee ID: " + empID);
+	                }
+	            }
+	        });
+	        btnSearch.setBounds(421, 65, 89, 23);
+	        frmAdminDashboard.getContentPane().add(btnSearch);
+	    }
+
+	     //Method to search for an employee by Employee ID.
+	     
+	    private String[] searchEmployeeID(String empID) {
+	        String[] employeeDetails = null;
+	        try (BufferedReader br = new BufferedReader(new FileReader("src\\EmployeeDetails.csv"))) {
+	            String line;
+	            while ((line = br.readLine()) != null) {
+	                String[] details = parseCSVLine(line);
+	                if (details[0].trim().equals(empID)) {
+	                    employeeDetails = details;
+	                    break;
+	                }
+	              
+	            }
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        return employeeDetails;
+	    
+	    }
 	
 	private void loadCSVData(String filePath) {
 	    DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -294,6 +335,17 @@ public class AdminDashboard {
 	public static String sanitize_data(String info) {
 		return info.replace(";x;",",").replace("\"", "");
 	}
+	
+	 private static String[] parseCSVLine(String line) {
+	        // Split line by comma but ignore commas inside double quotes
+	        // Assumes the CSV format is consistent and properly quoted
+	        String[] parts = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+	        // Remove surrounding quotes if present
+	        for (int i = 0; i < parts.length; i++) {
+	            parts[i] = parts[i].replaceAll("^\"|\"$", "");
+	        }
+	        return parts;
+	    }
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
@@ -312,5 +364,4 @@ public class AdminDashboard {
 			}
 		});
 	}
-
 }
