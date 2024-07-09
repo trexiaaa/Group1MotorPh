@@ -41,6 +41,9 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
+import java.awt.Window.Type;
 
 
 public class AdminDashboard {
@@ -49,6 +52,7 @@ public class AdminDashboard {
 	private JTable table;
 	private JTextField txtSearch;
 	private ArrayList<String[]> employeeData = new ArrayList<>();
+	
 
 	/**
 	 * Launch the application.
@@ -59,6 +63,7 @@ public class AdminDashboard {
 				try {
 					AdminDashboard window = new AdminDashboard();
 					window.frmAdminDashboard.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -81,21 +86,21 @@ public class AdminDashboard {
 		frmAdminDashboard = new JFrame();
 		frmAdminDashboard.getContentPane().setBackground(new Color(255, 204, 204));
 		frmAdminDashboard.setTitle("Admin Dashboard");
-		frmAdminDashboard.setBounds(200, 200, 674, 848);
+		frmAdminDashboard.setBounds(500, 0, 676, 1047);
 		frmAdminDashboard.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmAdminDashboard.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(255, 204, 204));
-		panel.setBorder(new MatteBorder(3, 3, 3, 3, (Color) Color.PINK));
-		panel.setBounds(10, 97, 637, 590);
+		panel.setBackground(new Color(0, 51, 102));
+		panel.setBorder(new MatteBorder(3, 3, 3, 3, (Color) new Color(0, 51, 102)));
+		panel.setBounds(10, 337, 637, 590);
 		frmAdminDashboard.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(10, 11, 614, 566);
+		scrollPane.setBounds(10, 11, 617, 566);
 		panel.add(scrollPane);
 		
 		table = new JTable();
@@ -114,7 +119,14 @@ public class AdminDashboard {
 			new String[] {
 				"Employee #", "Last Name", "First Name", "Birthday", "Address", "Phone Number", "SSS #", "Philhealth #", "TIN #", "Pag-ibig #", "Status", "Position", "Immediate Supervisor", "Basic Salary", "Rice Subsidy", "Phone Allowance", "Clothing Allowance", "Gross Semi-monthly Rate", "Hourly Rate"
 			}
-		));
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
 		table.getColumnModel().getColumn(0).setPreferredWidth(85);
 		table.getColumnModel().getColumn(1).setPreferredWidth(85);
 		table.getColumnModel().getColumn(1).setMinWidth(85);
@@ -144,16 +156,16 @@ public class AdminDashboard {
 		table.getColumnModel().getColumn(14).setPreferredWidth(87);
 		table.getColumnModel().getColumn(15).setPreferredWidth(97);
 		table.getColumnModel().getColumn(16).setPreferredWidth(105);
-		table.getColumnModel().getColumn(17).setPreferredWidth(150);
-		table.getColumnModel().getColumn(17).setMinWidth(150);
+		table.getColumnModel().getColumn(17).setPreferredWidth(130);
+		table.getColumnModel().getColumn(17).setMinWidth(130);
 		table.getColumnModel().getColumn(18).setPreferredWidth(67);
 		scrollPane.setViewportView(table);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
-		panel_1.setBorder(new MatteBorder(3, 3, 3, 3, (Color) Color.PINK));
-		panel_1.setBackground(new Color(255, 204, 204));
-		panel_1.setBounds(10, 698, 637, 106);
+		panel_1.setBorder(new MatteBorder(3, 3, 3, 3, (Color) new Color(0, 51, 102)));
+		panel_1.setBackground(new Color(0, 51, 102));
+		panel_1.setBounds(76, 938, 153, 62);
 		frmAdminDashboard.getContentPane().add(panel_1);
 		
 		JButton btnCreate = new JButton("Create");
@@ -163,64 +175,16 @@ public class AdminDashboard {
             	CreateAccount.main(null);
 			}
 		});
-		btnCreate.setBounds(10, 26, 130, 38);
+		btnCreate.setBounds(10, 11, 130, 38);
 		panel_1.add(btnCreate);
-		
-		JButton btnDelete = new JButton("Delete");
-		btnDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
-				int selectedRow = table.getSelectedRow();
-				
-				if (selectedRow == -1) {
-					JOptionPane.showMessageDialog(null, "Select a row to delete", "Error", JOptionPane.OK_CANCEL_OPTION);
-					return;
-				} 
-				
-				int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete selected employee details?", "Confirm", JOptionPane.YES_NO_OPTION);
-				if (confirm == JOptionPane.YES_OPTION) {
-					model.removeRow(selectedRow);
-					try {
-						deleteDataCsv();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-					JOptionPane.showMessageDialog(null, "Employee Details Deleted");
-				}
-				
-				
-			}
-		});
-		btnDelete.setBounds(170, 26, 123, 38);
-		panel_1.add(btnDelete);
-		
-		JButton btnUpdate = new JButton("Update");
-		btnUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		
-		btnUpdate.setBounds(323, 26, 130, 38);
-		panel_1.add(btnUpdate);
-		
-		JButton btnRefresh = new JButton("Refresh");
-		btnRefresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				loadCSVData("src\\EmployeeDetails");
-			}
-		});
-		btnRefresh.setBounds(497, 26, 130, 38);
-		panel_1.add(btnRefresh);
 		
 		JButton btnSignOut = new JButton("Sign Out");
 		btnSignOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AdminDashboard window = new AdminDashboard ();
 				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to sign out?", "Sign Out", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
-					System.exit(0);
+					
+					frmAdminDashboard.dispose();																		
 					
 					
 				}
@@ -230,12 +194,13 @@ public class AdminDashboard {
 		frmAdminDashboard.getContentPane().add(btnSignOut);
 		
 		JLabel lblNewLabel = new JLabel("MotorPh");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 50));
-		lblNewLabel.setBounds(10, 25, 216, 49);
+		lblNewLabel.setForeground(new Color(0, 51, 102));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 48));
+		lblNewLabel.setBounds(332, 250, 216, 53);
 		frmAdminDashboard.getContentPane().add(lblNewLabel);
 		
 		txtSearch = new JTextField();
-		txtSearch.setBounds(520, 66, 127, 20);
+		txtSearch.setBounds(520, 304, 127, 20);
 		frmAdminDashboard.getContentPane().add(txtSearch);
 		txtSearch.setColumns(10);
 		
@@ -249,13 +214,72 @@ public class AdminDashboard {
 	                if (employeeDetails != null) {
 	                    searchResultsFrame resultsFrame = new searchResultsFrame(employeeDetails);
 	                    resultsFrame.setVisible(true);
+	                    txtSearch.setText("");
 	                } else {
 	                    JOptionPane.showMessageDialog(null, "No employee found with Employee ID: " + empID);
 	                }
 	            }
 	        });
-	        btnSearch.setBounds(421, 65, 89, 23);
+	        btnSearch.setBounds(422, 303, 89, 23);
 	        frmAdminDashboard.getContentPane().add(btnSearch);
+	        
+	        JLabel lblNewLabel_1 = new JLabel("New label");
+	        lblNewLabel_1.setIcon(new ImageIcon("C:\\Users\\jimca\\git\\Group1Homework4\\MotorPhApp\\asfasfsaf-removebg-preview.png"));
+	        lblNewLabel_1.setBounds(10, -23, 640, 347);
+	        frmAdminDashboard.getContentPane().add(lblNewLabel_1);
+	        
+	        JPanel panel_1_1 = new JPanel();
+	        panel_1_1.setLayout(null);
+	        panel_1_1.setBorder(new MatteBorder(3, 3, 3, 3, (Color) new Color(0, 51, 102)));
+	        panel_1_1.setBackground(new Color(0, 51, 102));
+	        panel_1_1.setBounds(259, 938, 146, 62);
+	        frmAdminDashboard.getContentPane().add(panel_1_1);
+	        
+	        JButton btnDelete = new JButton("Delete");
+	        btnDelete.setBounds(10, 11, 123, 38);
+	        panel_1_1.add(btnDelete);
+	        btnDelete.addActionListener(new ActionListener() {
+	        	public void actionPerformed(ActionEvent e) {
+	        		DefaultTableModel model = (DefaultTableModel) table.getModel();
+	        		int selectedRow = table.getSelectedRow();
+	        		
+	        		if (selectedRow == -1) {
+	        			JOptionPane.showMessageDialog(null, "Select a row to delete", "Error", JOptionPane.OK_CANCEL_OPTION);
+	        			return;
+	        		} 
+	        		
+	        		int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete selected employee details?", "Confirm", JOptionPane.YES_NO_OPTION);
+	        		if (confirm == JOptionPane.YES_OPTION) {
+	        			model.removeRow(selectedRow);
+	        			try {
+	        				deleteDataCsv();
+	        			} catch (IOException e1) {
+	        				// TODO Auto-generated catch block
+	        				e1.printStackTrace();
+	        			}
+	        			
+	        			JOptionPane.showMessageDialog(null, "Employee Details Deleted");
+	        		}
+	        		
+	        		
+	        	}
+	        });
+	        
+	        JPanel panel_1_2 = new JPanel();
+	        panel_1_2.setLayout(null);
+	        panel_1_2.setBorder(new MatteBorder(3, 3, 3, 3, (Color) new Color(0, 51, 102)));
+	        panel_1_2.setBackground(new Color(0, 51, 102));
+	        panel_1_2.setBounds(436, 938, 153, 62);
+	        frmAdminDashboard.getContentPane().add(panel_1_2);
+	        
+	        JButton btnRefresh = new JButton("Refresh");
+	        btnRefresh.setBounds(13, 11, 130, 38);
+	        panel_1_2.add(btnRefresh);
+	        btnRefresh.addActionListener(new ActionListener() {
+	        	public void actionPerformed(ActionEvent e) {
+	        		loadCSVData("src\\EmployeeDetails");
+	        	}
+	        });
 	    }
 
 	     //Method to search for an employee by Employee ID.

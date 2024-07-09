@@ -16,7 +16,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JComboBox;
@@ -83,6 +85,7 @@ public class CreateAccount extends JDialog {
 	public CreateAccount() {
 		setBounds(100, 100, 454, 766);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(new Color(255, 204, 204));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
@@ -314,6 +317,7 @@ public class CreateAccount extends JDialog {
 			            
 		            JOptionPane.showMessageDialog(null, "New Employee Details Added Successfully!");
 		            dispose(); // Close the dialog
+		            
 		        } catch (IOException ex) {
 		            ex.printStackTrace();
 		            JOptionPane.showMessageDialog(null, "Error adding new employee.", "Error", JOptionPane.ERROR_MESSAGE);

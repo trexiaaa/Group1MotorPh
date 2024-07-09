@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import javax.swing.DropMode;
+import java.awt.Color;
 
 public class searchResultsFrame extends JFrame {
 
@@ -74,10 +75,11 @@ public class searchResultsFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public searchResultsFrame(String[] employeeDetails) {
+		getContentPane().setBackground(new Color(255, 204, 204));
 		this.employeeDetails = employeeDetails;
 		 
 		 setTitle("Employee Details");
-         setSize(441, 755);
+         setSize(687, 755);
          setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
          setLocationRelativeTo(null);
          getContentPane().setLayout(null);
@@ -88,7 +90,7 @@ public class searchResultsFrame extends JFrame {
          
          txtEmpID = new JTextField();
          txtEmpID.setEditable(false);
-         txtEmpID.setBounds(231, 33, 148, 20);
+         txtEmpID.setBounds(255, 33, 382, 20);
          getContentPane().add(txtEmpID);
          txtEmpID.setColumns(10);
          txtEmpID.setText(employeeDetails[0]);;
@@ -100,7 +102,7 @@ public class searchResultsFrame extends JFrame {
          txtLastName = new JTextField();
          txtLastName.setEditable(false);
          txtLastName.setColumns(10);
-         txtLastName.setBounds(231, 64, 148, 20);
+         txtLastName.setBounds(255, 64, 382, 20);
          getContentPane().add(txtLastName);
          txtLastName.setText(employeeDetails[1]);
          
@@ -111,7 +113,7 @@ public class searchResultsFrame extends JFrame {
          txtFirstName = new JTextField();
          txtFirstName.setEditable(false);
          txtFirstName.setColumns(10);
-         txtFirstName.setBounds(231, 95, 148, 20);
+         txtFirstName.setBounds(255, 95, 382, 20);
          getContentPane().add(txtFirstName);
          txtFirstName.setText(employeeDetails[2]);
          
@@ -122,7 +124,7 @@ public class searchResultsFrame extends JFrame {
          txtBirthday = new JTextField();
          txtBirthday.setEditable(false);
          txtBirthday.setColumns(10);
-         txtBirthday.setBounds(231, 126, 148, 20);
+         txtBirthday.setBounds(255, 126, 382, 20);
          getContentPane().add(txtBirthday);
          txtBirthday.setText(employeeDetails[3]);
          
@@ -133,7 +135,7 @@ public class searchResultsFrame extends JFrame {
          txtAddress = new JTextField();
          txtAddress.setEditable(false);
          txtAddress.setColumns(10);
-         txtAddress.setBounds(231, 157, 148, 20);
+         txtAddress.setBounds(255, 157, 382, 20);
          getContentPane().add(txtAddress);
          txtAddress.setText(employeeDetails[4]);
          
@@ -144,7 +146,7 @@ public class searchResultsFrame extends JFrame {
          txtPhone = new JTextField();
          txtPhone.setEditable(false);
          txtPhone.setColumns(10);
-         txtPhone.setBounds(231, 188, 148, 20);
+         txtPhone.setBounds(255, 188, 382, 20);
          getContentPane().add(txtPhone);
          txtPhone.setText(employeeDetails[5]);
          
@@ -155,18 +157,18 @@ public class searchResultsFrame extends JFrame {
          txtSSS = new JTextField();
          txtSSS.setEditable(false);
          txtSSS.setColumns(10);
-         txtSSS.setBounds(231, 219, 148, 20);
+         txtSSS.setBounds(255, 219, 382, 20);
          getContentPane().add(txtSSS);
          txtSSS.setText(employeeDetails[6]);
          
          JLabel lblPhilHealth = new JLabel("PhilHealth Number");
-         lblPhilHealth.setBounds(48, 256, 103, 14);
+         lblPhilHealth.setBounds(48, 256, 148, 14);
          getContentPane().add(lblPhilHealth);
       
          txtPhilHealth = new JTextField();
          txtPhilHealth.setEditable(false);
          txtPhilHealth.setColumns(10);
-         txtPhilHealth.setBounds(231, 250, 148, 20);
+         txtPhilHealth.setBounds(255, 250, 382, 20);
          getContentPane().add(txtPhilHealth);
          txtPhilHealth.setText(employeeDetails[7]);
          
@@ -177,7 +179,7 @@ public class searchResultsFrame extends JFrame {
          txtTIN = new JTextField();
          txtTIN.setEditable(false);
          txtTIN.setColumns(10);
-         txtTIN.setBounds(231, 281, 148, 20);
+         txtTIN.setBounds(255, 281, 382, 20);
          getContentPane().add(txtTIN);
          txtTIN.setText(employeeDetails[8]);
          
@@ -188,7 +190,7 @@ public class searchResultsFrame extends JFrame {
          txtPagibig = new JTextField();
          txtPagibig.setEditable(false);
          txtPagibig.setColumns(10);
-         txtPagibig.setBounds(231, 312, 148, 20);
+         txtPagibig.setBounds(255, 312, 382, 20);
          getContentPane().add(txtPagibig);
          txtPagibig.setText(employeeDetails[9]);
          
@@ -199,7 +201,7 @@ public class searchResultsFrame extends JFrame {
          txtStatus = new JTextField();
          txtStatus.setEditable(false);
          txtStatus.setColumns(10);
-         txtStatus.setBounds(231, 343, 148, 20);
+         txtStatus.setBounds(255, 343, 382, 20);
          getContentPane().add(txtStatus);
          txtStatus.setText(employeeDetails[10]);
          
@@ -210,18 +212,18 @@ public class searchResultsFrame extends JFrame {
          txtPosition = new JTextField();
          txtPosition.setEditable(false);
          txtPosition.setColumns(10);
-         txtPosition.setBounds(231, 374, 148, 20);
+         txtPosition.setBounds(255, 374, 382, 20);
          getContentPane().add(txtPosition);
          txtPosition.setText(employeeDetails[11]);
          
          JLabel lblSupervisor = new JLabel("Immediate Supervisor");
-         lblSupervisor.setBounds(48, 411, 117, 14);
+         lblSupervisor.setBounds(48, 411, 148, 14);
          getContentPane().add(lblSupervisor);
          
          txtSupervisor = new JTextField();
          txtSupervisor.setEditable(false);
          txtSupervisor.setColumns(10);
-         txtSupervisor.setBounds(231, 405, 148, 20);
+         txtSupervisor.setBounds(255, 405, 382, 20);
          getContentPane().add(txtSupervisor);
          txtSupervisor.setText(employeeDetails[12]);
          
@@ -232,7 +234,7 @@ public class searchResultsFrame extends JFrame {
          txtBasicSalary = new JTextField();
          txtBasicSalary.setEditable(false);
          txtBasicSalary.setColumns(10);
-         txtBasicSalary.setBounds(231, 436, 148, 20);
+         txtBasicSalary.setBounds(255, 436, 382, 20);
          getContentPane().add(txtBasicSalary);
          txtBasicSalary.setText(employeeDetails[13]);
          
@@ -243,7 +245,7 @@ public class searchResultsFrame extends JFrame {
          txtRice = new JTextField();
          txtRice.setEditable(false);
          txtRice.setColumns(10);
-         txtRice.setBounds(231, 467, 148, 20);
+         txtRice.setBounds(255, 467, 382, 20);
          getContentPane().add(txtRice);
          txtRice.setText(employeeDetails[14]);
          
@@ -254,18 +256,18 @@ public class searchResultsFrame extends JFrame {
          txtPhoneAllow = new JTextField();
          txtPhoneAllow.setEditable(false);
          txtPhoneAllow.setColumns(10);
-         txtPhoneAllow.setBounds(231, 498, 148, 20);
+         txtPhoneAllow.setBounds(255, 498, 382, 20);
          getContentPane().add(txtPhoneAllow);
          txtPhoneAllow.setText(employeeDetails[15]);
          
          JLabel lblClothing = new JLabel("Clothing Allowance");
-         lblClothing.setBounds(48, 535, 103, 14);
+         lblClothing.setBounds(48, 535, 148, 14);
          getContentPane().add(lblClothing);
          
          txtClothing = new JTextField();
          txtClothing.setEditable(false);
          txtClothing.setColumns(10);
-         txtClothing.setBounds(231, 529, 148, 20);
+         txtClothing.setBounds(255, 529, 382, 20);
          getContentPane().add(txtClothing);
          txtClothing.setText(employeeDetails[16]);
          
@@ -276,7 +278,7 @@ public class searchResultsFrame extends JFrame {
          txtSemiMonthly = new JTextField();
          txtSemiMonthly.setEditable(false);
          txtSemiMonthly.setColumns(10);
-         txtSemiMonthly.setBounds(231, 560, 148, 20);
+         txtSemiMonthly.setBounds(255, 560, 382, 20);
          getContentPane().add(txtSemiMonthly);
          txtSemiMonthly.setText(employeeDetails[17]);
          
@@ -287,7 +289,7 @@ public class searchResultsFrame extends JFrame {
          txtHourlyRate = new JTextField();
          txtHourlyRate.setEditable(false);
          txtHourlyRate.setColumns(10);
-         txtHourlyRate.setBounds(231, 591, 148, 20);
+         txtHourlyRate.setBounds(255, 591, 382, 20);
          getContentPane().add(txtHourlyRate);
          txtHourlyRate.setText(employeeDetails[18]);
          
@@ -299,7 +301,7 @@ public class searchResultsFrame extends JFrame {
          		btnSave.setVisible(false);
          	}
          });
-         btnSave.setBounds(86, 650, 89, 23);
+         btnSave.setBounds(218, 650, 89, 23);
          getContentPane().add(btnSave);
              
          JButton btnUpdate = new JButton("Update");
@@ -327,7 +329,7 @@ public class searchResultsFrame extends JFrame {
      			btnSave.setVisible(true);
          	}
          });
-         btnUpdate.setBounds(249, 650, 89, 23);
+         btnUpdate.setBounds(345, 650, 89, 23);
          getContentPane().add(btnUpdate);
          
          
@@ -521,6 +523,25 @@ public class searchResultsFrame extends JFrame {
 	            
 		            } else {
 		                JOptionPane.showMessageDialog(null, "No changes detected.");
+		                txtEmpID.setEditable(false);
+			            txtLastName.setEditable(false);
+			            txtFirstName.setEditable(false);
+			            txtBirthday.setEditable(false);
+			            txtAddress.setEditable(false);
+			            txtPhone.setEditable(false);
+			            txtSSS.setEditable(false);
+			            txtPhilHealth.setEditable(false);
+		     			txtTIN.setEditable(false);
+		     			txtPagibig.setEditable(false);
+		     			txtStatus.setEditable(false);
+		     			txtPosition.setEditable(false);
+		     			txtSupervisor.setEditable(false);
+		     			txtBasicSalary.setEditable(false);
+		     			txtRice.setEditable(false);
+		     			txtPhoneAllow.setEditable(false);
+		     			txtClothing.setEditable(false);
+		     			txtSemiMonthly.setEditable(false);
+		     			txtHourlyRate.setEditable(false);
 		            }
 		        } else {
 		            JOptionPane.showMessageDialog(null, "Invalid employee details provided.");
