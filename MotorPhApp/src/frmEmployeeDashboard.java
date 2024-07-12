@@ -507,6 +507,35 @@ private void saveEmployeeDetails() {
 	        JOptionPane.showMessageDialog(null, "Invalid employee details provided.");
 	        return;
 	    }
+	 
+	// Validate birthday format
+	 String birthday = txtBirthday.getText().trim();
+	    if (!birthday.matches("^(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])/\\d{4}$")) {
+	        JOptionPane.showMessageDialog(null, "Please enter birthday in MM/DD/YYYY format.", "Error", JOptionPane.ERROR_MESSAGE);
+	           txtLastName.setEditable(false);
+	           txtFirstName.setEditable(false);
+	           txtBirthday.setEditable(false);
+	           txtAddress.setEditable(false);
+	           txtPhoneNum.setEditable(false);
+	        return;
+	        
+	           
+	        
+	    }
+	    
+	 // Validate phone number
+	 String phoneNumber = txtPhoneNum.getText().trim();
+	    if (!phoneNumber.matches("\\d+")) {
+	        JOptionPane.showMessageDialog(null, "Please enter a valid phone number.", "Error", JOptionPane.ERROR_MESSAGE);
+	        txtLastName.setEditable(false);
+	           txtFirstName.setEditable(false);
+	           txtBirthday.setEditable(false);
+	           txtAddress.setEditable(false);
+	           txtPhoneNum.setEditable(false);
+	        return;
+	    }
+	    
+	    
 	                          
 	 try {
 	        ArrayList<String[]> lines = new ArrayList<>();

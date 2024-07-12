@@ -286,6 +286,55 @@ public class CreateAccount extends JDialog {
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Validate fields to make sure there is no empty text fields
+		        if (txtEmpNum.getText().trim().isEmpty() ||
+		            txtLastName.getText().trim().isEmpty() ||
+		            txtFirstName.getText().trim().isEmpty() ||
+		            txtBirthday.getText().trim().isEmpty() ||
+		            txtAddress.getText().trim().isEmpty() ||
+		            txtPhoneNum.getText().trim().isEmpty() ||
+		            txtSSSNum.getText().trim().isEmpty() ||
+		            txtPHNum.getText().trim().isEmpty() ||
+		            txtTinNum.getText().trim().isEmpty() ||
+		            txtPagibigNum.getText().trim().isEmpty() ||
+		            txtStatus.getText().trim().isEmpty() ||
+		            txtPosition.getText().trim().isEmpty() ||
+		            txtSupervisor.getText().trim().isEmpty() ||
+		            txtBasicSalary.getText().trim().isEmpty() ||
+		            txtRiceSubsidy.getText().trim().isEmpty() ||
+		            txtPhoneAllowance.getText().trim().isEmpty() ||
+		            txtClothingAllowance.getText().trim().isEmpty() ||
+		            txtSemiMonthlyRate.getText().trim().isEmpty() ||
+		            txtHourlyRate.getText().trim().isEmpty()) {
+		            
+		            JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+		            return; 
+		        }
+		        
+		        // validate values to make sure it only contains numbers (used regex pattern) 
+		        if (!txtPhoneNum.getText().trim().matches("\\d+") || 
+		        		!txtEmpNum.getText().trim().matches("\\d+") ||
+		        		!txtSSSNum.getText().trim().matches("\\d+") ||
+		                !txtPHNum.getText().trim().matches("\\d+") ||
+		                !txtTinNum.getText().trim().matches("\\d+") ||
+		                !txtPagibigNum.getText().trim().matches("\\d+") ||
+		                !txtBasicSalary.getText().trim().matches("\\d+(\\.\\d+)?") ||
+		                !txtRiceSubsidy.getText().trim().matches("\\d+(\\.\\d+)?") ||
+		                !txtPhoneAllowance.getText().trim().matches("\\d+(\\.\\d+)?") ||
+		                !txtClothingAllowance.getText().trim().matches("\\d+(\\.\\d+)?") ||
+		                !txtSemiMonthlyRate.getText().trim().matches("\\d+(\\.\\d+)?") ||
+		                !txtHourlyRate.getText().trim().matches("\\d+(\\.\\d+)?")) {
+		                
+		                JOptionPane.showMessageDialog(null, "Please enter valid numeric values for numeric fields.", "Error", JOptionPane.ERROR_MESSAGE);
+		                return; 
+		            }
+		        
+		        //validation code for birthday 
+		        if (!txtBirthday.getText().trim().matches("^(0[1-9]|1[0-2])/(0[1-9]|[1-2][0-9]|3[0-1])/\\d{4}$")) {
+		            JOptionPane.showMessageDialog(null, "Please enter birthday in MM/DD/YYYY format.", "Error", JOptionPane.ERROR_MESSAGE);
+		            return; 
+		        }
+
 				 try (BufferedWriter writer = new BufferedWriter(new FileWriter("src\\EmployeeDetails.csv", true))) {
 			            String[] newData = new String[]{
 			                txtEmpNum.getText().trim(),
