@@ -18,6 +18,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -96,6 +98,7 @@ public class CreateAccount extends JDialog {
 		contentPanel.add(lblEmpNum);
 		
 		txtEmpNum = new JTextField();
+		txtEmpNum.setEditable(false);
 		txtEmpNum.setBounds(197, 53, 199, 20);
 		contentPanel.add(txtEmpNum);
 		txtEmpNum.setColumns(10);
@@ -395,7 +398,7 @@ public class CreateAccount extends JDialog {
                 txtTinNum.setText("");
                 txtPagibigNum.setText("");
                 txtStatus.setText("");
-                txtPosition.setText("");
+                txtPosition.setText("");                                                   
                 txtSupervisor.setText("");
                 txtBasicSalary.setText("");
                 txtRiceSubsidy.setText("");
@@ -407,5 +410,34 @@ public class CreateAccount extends JDialog {
 		});
 		btnReset.setBounds(100, 667, 89, 23);
 		contentPanel.add(btnReset);
+		
+		int nextEmpNum = getNextEmpNum();
+		txtEmpNum.setText(String.valueOf(nextEmpNum));
 	}
+	
+	private int getNextEmpNum() {
+        int maxEmpNum = 0;
+        try (BufferedReader reader = new BufferedReader(new FileReader("src\\EmployeeDetails.csv"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] fields = line.split(",");
+                if (fields.length > 0) {
+                    try {
+                        int empNum = Integer.parseInt(fields[0].trim());
+                        if (empNum > maxEmpNum) {
+                            maxEmpNum = empNum;
+                        }
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return maxEmpNum + 1;
+    }
+
+	
+	
 }
